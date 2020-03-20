@@ -5,7 +5,7 @@
     <link rel="manifest" href="main.webmanifest">
   </head>
   <body>
-    This is going to be a PWA. It should has a manifest now
+    This is going to be a PWA. It should has a manifest now. Check features <a href="features.html">here</a>
     <h1>Large Counter:</h1><h1 id="js-counter-value">0</h1>
     <button onClick="plusOne()">Plus 1</button>
 
@@ -27,11 +27,14 @@
       const addBtn = document.querySelector('.add-button');
       addBtn.style.display = 'none';
 
-      function log(text) {
-        var node = document.createElement("LI");
-        var textnode = document.createTextNode(text);
-        node.appendChild(textnode);
-        document.getElementById('js-log').appendChild(node);
+      function log() {
+        for (let i = 0; i < arguments.length; i += 1) {
+          var text = arguments[i];
+          var node = document.createElement("LI");
+          var textnode = document.createTextNode(text);
+          node.appendChild(textnode);
+          document.getElementById('js-log').appendChild(node);
+        }
       }
 
       window.addEventListener('appinstalled', (evt) => {
@@ -74,6 +77,19 @@
             });
         });
       });
+
+      if ('serviceWorker' in navigator) {
+        log("Support service workers");
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('sw.js').then(function(registration) {
+            // Registration was successful
+            log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, function(err) {
+            // registration failed :(
+            log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
     </script>
   </body>
 </html>
