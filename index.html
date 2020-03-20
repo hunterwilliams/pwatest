@@ -11,6 +11,10 @@
 
     <button class="add-button">Add to HomeScreen!</button>
 
+    <h3>Log</h3>
+    <ul id="js-log">
+    </u>
+
     <script type="text/javascript">
       var counter = 0;
       function plusOne() {
@@ -22,6 +26,27 @@
       let deferredPrompt;
       const addBtn = document.querySelector('.add-button');
       addBtn.style.display = 'none';
+
+      function log(text) {
+        var node = document.createElement("LI");
+        var textnode = document.createTextNode(text);
+        node.appendChild(textnode);
+        document.getElementById('js-log').appendChild(node);
+      }
+
+      window.addEventListener('appinstalled', (evt) => {
+        log('PWA Test installed');
+      });
+
+      window.addEventListener('load', () => {
+        if (navigator.standalone) {
+          log('Launched: Installed (iOS)');
+        } else if (matchMedia('(display-mode: standalone)').matches) {
+          log('Launched: Installed');
+        } else {
+          log('Launched: Browser Tab');
+        }
+      });
 
       window.addEventListener('beforeinstallprompt', (e) => {
         // Prevent Chrome 67 and earlier from automatically showing the prompt
@@ -39,9 +64,9 @@
           // Wait for the user to respond to the prompt
           deferredPrompt.userChoice.then((choiceResult) => {
               if (choiceResult.outcome === 'accepted') {
-                alert('User accepted the A2HS prompt');
+                log('User accepted the A2HS prompt');
               } else {
-                alert('User dismissed the A2HS prompt');
+                log('User dismissed the A2HS prompt');
               }
               deferredPrompt = null;
             });
