@@ -1,9 +1,20 @@
 <html>
   <head>
     <title>PWA Test Header</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="main.webmanifest">
   </head>
   <body>
     This is going to be a PWA. It should has a manifest now
+    <h1>Large Counter:</h1><h1 id="js-counter-value">0</h1>
+    <button onClick="plusOne()">Plus 1</button>
+
+    <script type="text/javascript">
+      var counter = 0;
+      function plusOne() {
+        counter += 1;
+        document.getElementById('js-counter-value').innerText = counter;
+      };
+    </script>
   </body>
 </html>
